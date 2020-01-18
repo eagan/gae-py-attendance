@@ -34,12 +34,12 @@
         <div class="inputSection">
           <div class="inputItem required">
             <label for="name1" class="itemName">お名前</label>
-            <input name="name1" placeholder="お名前を入力してください" />
+            <input name="name1" type="text" placeholder="お名前を入力してください" />
             <span id="name1-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="name2" class="itemName">旧姓</label>
-            <input name="name2" placeholder="旧姓を入力してください" />
+            <input name="name2" type="text" placeholder="旧姓を入力してください" />
             <span id="name2-error" class="errorMessage"></span>
           </div>
           <div class="inputItem required">
@@ -78,12 +78,12 @@
           </div>
           <div class="inputItem">
             <label for="group2" class="itemName">部活</label>
-            <input name="group2" placeholder="所属していた部活名を入力してください（複数可）"/>
+            <input name="group2" type="text" placeholder="所属していた部活名を入力してください（複数可）"/>
             <span id="group2-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="email" class="itemName">メールアドレス</label>
-            <input name="email" placeholder="メールアドレスを入力してください"/>
+            <input name="email" type="text" placeholder="メールアドレスを入力してください"/>
             <span id="email-error" class="errorMessage"></span>
           </div>
         </div>
@@ -117,38 +117,38 @@
         <div class="inputSection">
           <div class="inputItem">
             <label for="zip1" class="itemName">郵便番号</label>
-            <input name="zip1" size="3" maxlength="3"> -
-            <input name="zip2" size="4" maxlength="4">
+            <input name="zip1" type="text" size="3" maxlength="3"> -
+            <input name="zip2" type="text" size="4" maxlength="4">
             <span id="zip1-error" class="errorMessage"></span>
             <span id="zip2-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="address" class="itemName">住所</label>
-            <input name="address">
+            <input name="address" type="text" placeholder="住所を入力してください">
             <span id="address-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="tel" class="itemName">電話番号</label>
-            <input name="tel" placeholder="電話番号を入力してください">
+            <input name="tel" type="text" placeholder="電話番号を入力してください">
             <span id="tel-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="fax" class="itemName">FAX</label>
-            <input name="fax" placeholder="FAX番号を入力してください">
+            <input name="fax" type="text" placeholder="FAX番号を入力してください">
             <span id="fax-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="office" class="itemName">お勤め先</label>
-            <input name="office" placeholder="お勤め先の名前を入力してください">
+            <input name="office" type="text" placeholder="お勤め先の名前を入力してください">
             <span id="office-error" class="errorMessage"></span>
           </div>
           <div class="inputItem">
             <label for="officetel" class="itemName">お勤め先電話番号</label>
-            <input name="officetel" placeholder="お勤め先の電話番号を入力してください">
+            <input name="officetel" type="text" placeholder="お勤め先の電話番号を入力してください">
             <span id="officetel-error" class="errorMessage"></span>
           </div>
         </div>
-        <div class="inputSection">
+        <div>
           <input type="submit" id="button-entry" value="登録" />
         </div>
       </form>

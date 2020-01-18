@@ -1,17 +1,42 @@
 body {
-  /* font-family: "helvetica", sans-serif; */
   text-align: center;
   horizontal-align: center;
 }
 
+.inputSection {
+  margin: 1ex .1em;
+  padding: .5ex 1em .5ex .1em;
+  box-shadow: 4px 4px 8px;
+  
+  text-align: left;
+}
+
 .inputItem {
   margin: 1ex;
-  max-width: 40em;
+  /* max-width: 40em; */
   horizontal-align: center;
 }
 
-input {
-  /* width: 100%; */
+input[type=text] {
+  width: 100%;
+}
+
+input[type=text][name="zip1"] {
+  width: 3em;
+}
+
+input[type=text][name="zip2"] {
+  width: 4em;
+}
+
+input[type=submit] {
+  width: 8em;
+  background: pink;
+}
+
+textarea[name=message] {
+  width: 100%;
+  height: 10ex;
 }
 
 .error {
@@ -33,7 +58,8 @@ label.itemName {
   font-weight: bold;
 }
 
-div {
-  box-shadow: .5em, .5ex;
-  border-width: 10px;
+div.search-result-row {
+  margin: 1ex .1em;
+  padding: .5ex 1em .5ex .1em;
+  box-shadow: 4px 4px 8px;
 }
