@@ -1,0 +1,39 @@
+body {
+  /* font-family: "helvetica", sans-serif; */
+  text-align: center;
+  horizontal-align: center;
+}
+
+.inputItem {
+  margin: 1ex;
+  max-width: 40em;
+  horizontal-align: center;
+}
+
+input {
+  /* width: 100%; */
+}
+
+.error {
+  background-color: red;
+}
+
+.errorMessage {
+  color: red;
+}
+
+label.itemName {
+  display: block;
+  text-align: left;
+}
+
+.required label.itemName:after {
+  content: "*";
+  color: red;
+  font-weight: bold;
+}
+
+div {
+  box-shadow: .5em, .5ex;
+  border-width: 10px;
+}

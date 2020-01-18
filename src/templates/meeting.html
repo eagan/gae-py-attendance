@@ -1,0 +1,183 @@
+<!doctype html>	
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ meeting.title }}</title>
+  <link type="text/css" rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='meeting.js') }}"></script>
+</head>
+<body>
+
+  <h1>{{ meeting.title }}</h1>
+  
+  <p>
+  {% if meeting.detail_url %}
+    <a href="{{ meeting.detail_url }}">{{ meeting.title }}</a>
+  {% else %}
+    {{ meeting.title }}
+  {% endif %}
+  の出席登録ページです。</p>
+  
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-entry">参加申込</a></li>
+      <li><a href="#tabs-search">参加者検索</a></li>
+    </ul>
+    <div id="tabs-entry">
+      <h2>参加申込</h2>
+      <form id="form-entry" action="entry/" method="POST">
+        <div class="inputSection">
+          <div class="inputItem required">
+            <label for="name1" class="itemName">お名前</label>
+            <input name="name1" placeholder="お名前を入力してください" />
+            <span id="name1-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="name2" class="itemName">旧姓</label>
+            <input name="name2" placeholder="旧姓を入力してください" />
+            <span id="name2-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem required">
+            <label for="group1" class="itemName">在籍回生</label>
+            <select name="group1">
+<option value="87">87回生 (2019 - 2020生)</option>
+<option value="86">86回生 (2018 - 2019生)</option>
+<option value="85">85回生 (2017 - 2018生)</option>
+<option value="84">84回生 (2016 - 2017生)</option>
+<option value="83">83回生 (2015 - 2016生)</option>
+<option value="82">82回生 (2014 - 2015生)</option>
+<option value="81">81回生 (2013 - 2014生)</option>
+<option value="80">80回生 (2012 - 2013生)</option>
+<option value="79">79回生 (2011 - 2012生)</option>
+<option value="78">78回生 (2010 - 2011生)</option>
+<option value="77">77回生 (2009 - 2010生)</option>
+<option value="76">76回生 (2008 - 2009生)</option>
+<option value="75">75回生 (2007 - 2008生)</option>
+<option value="74">74回生 (2006 - 2007生)</option>
+<option value="73">73回生 (2005 - 2006生)</option>
+<option value="72">72回生 (2004 - 2005生)</option>
+<option value="71">71回生 (2003 - 2004生)</option>
+<option value="70">70回生 (2002 - 2003生)</option>
+<option value="69">69回生 (2001 - 2002生)</option>
+<option value="68">68回生 (2000 - 2001生)</option>
+<option value="67">67回生 (1999 - 2000生)</option>
+<option value="66">66回生 (1998 - 1999生)</option>
+<option value="65">65回生 (1997 - 1998生)</option>
+<option value="64">64回生 (1996 - 1997生)</option>
+<option value="63">63回生 (1995 - 1996生)</option>
+<option value="62">62回生 (1994 - 1995生)</option>
+<option value="61">61回生 (1993 - 1994生)</option>
+<option value="60">60回生 (1992 - 1993生)</option>
+            </select>
+            <span id="group1-error"></span>
+          </div>
+          <div class="inputItem">
+            <label for="group2" class="itemName">部活</label>
+            <input name="group2" placeholder="所属していた部活名を入力してください（複数可）"/>
+            <span id="group2-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="email" class="itemName">メールアドレス</label>
+            <input name="email" placeholder="メールアドレスを入力してください"/>
+            <span id="email-error" class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="inputSection">
+          <div class="inputItem required">
+            <label for="attendance1" class="itemName">総会・懇親会</label>
+            <input name="attendance1" type="radio" value="true" id="attendance1-true"><label for="attendance1-true">ご出席</label>
+            <input name="attendance1" type="radio" value="false" id="attendance1-false"><label for="attendance1-false">ご欠席</label>
+            <span id="attendance1-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem required">
+            <label for="attendance2" class="itemName">二次会</label>
+            <input name="attendance2" type="radio" value="true" id="attendance2-true"><label for="attendance2-true">ご出席</label>
+            <input name="attendance2" type="radio" value="false" id="attendance2-false"><label for="attendance2-false">ご欠席</label>
+            <span id="attendance2-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem required">
+            <label for="anonymous" class="itemName">出欠の公開</label>
+            <input name="anonymous" type="radio" value="false" id="anonymous-false"><label for="anonymous-false">公開可</label>
+            <input name="anonymous" type="radio" value="true" id="anonymous-true"><label for="anonymous-true">匿名希望</label>
+            <span id="anonymous-error" class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="inputSection">
+          <div class="inputItem">
+            <label for="message" class="itemName">メッセージ</label>
+            <textarea name="message"></textarea>
+            <span id="message-error" class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="inputSection">
+          <div class="inputItem">
+            <label for="zip1" class="itemName">郵便番号</label>
+            <input name="zip1" size="3" maxlength="3"> -
+            <input name="zip2" size="4" maxlength="4">
+            <span id="zip1-error" class="errorMessage"></span>
+            <span id="zip2-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="address" class="itemName">住所</label>
+            <input name="address">
+            <span id="address-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="tel" class="itemName">電話番号</label>
+            <input name="tel" placeholder="電話番号を入力してください">
+            <span id="tel-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="fax" class="itemName">FAX</label>
+            <input name="fax" placeholder="FAX番号を入力してください">
+            <span id="fax-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="office" class="itemName">お勤め先</label>
+            <input name="office" placeholder="お勤め先の名前を入力してください">
+            <span id="office-error" class="errorMessage"></span>
+          </div>
+          <div class="inputItem">
+            <label for="officetel" class="itemName">お勤め先電話番号</label>
+            <input name="officetel" placeholder="お勤め先の電話番号を入力してください">
+            <span id="officetel-error" class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="inputSection">
+          <input type="submit" id="button-entry" value="登録" />
+        </div>
+      </form>
+    </div>
+    <div id="tabs-search">
+      <h2>参加者検索</h2>
+      <form id="form-search" action="search/">
+        <input type="text" name="condition" placeholder="検索条件を入力して検索してください。" />
+        <input type="submit" id="button-search" value="検索" />
+      </form>
+      <div id="table-search-result">
+      </div>
+      <div id="table-search-result-template">
+        <div class="search-result-row">
+          <div>
+            <span class="group1"></span>
+            <span class="name"></span>
+          </div>
+          <div>
+            <span class="group2"></span>
+          </div>
+          <div>
+            <span class="attendance1"></span>
+            <span class="attendance2"></span
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
