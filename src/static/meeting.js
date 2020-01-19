@@ -11,6 +11,14 @@ function text_attendance(b) {
 function getOptionsGroup1() {
 }
 
+function setAddress(apiResult) {
+    if ("results" in apiResult && "length" in apiResult.results && apiResult.results.length > 0) {
+        var aResult = apiResult.results[0];
+        $("input[name=address]").val(aResult.address1 + aResult.address2 + aResult.address3);
+    }
+};
+
+
 $( function() {
     $( "#tabs" ).tabs();
     
@@ -51,6 +59,26 @@ $( function() {
             complete: function(jqXHR, textStatus) {
                 button.attr('disabled', false);
             }
+        });
+    });
+    
+    // 郵便番号検索
+    
+    $( "#zip2address" ).on("click", function(event) {
+        // デフォルト動作は抑止
+        event.preventDefault();
+        
+        var zipcode = $("input[name=zip1]").val() + $("input[name=zip2]").val();
+        $.ajax({
+            url: "https://zip-cloud.appspot.com/api/search",
+            type: "GET",
+            crossDomain: true,
+            cache: true,
+            data: {
+                "zipcode": zipcode
+            },
+            dataType: "jsonp",
+            jsonpCallback: "setAddress"
         });
     });
     
