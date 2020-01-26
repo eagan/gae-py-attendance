@@ -11,3 +11,14 @@
 [jQuery](https://jquery.com/) および
 [jQuery UI](https://jqueryui.com/) を使っています。
 各プロジェクト関係者に感謝します。
+
+## Google App Engine を使った理由
+開発の発端となった会合には「無料で使えるサーバ」という要件がありました。
+1 年間の試用期間は無料といったサービスはほかにもありますが、
+Google App Engine（というより Google Cloud Platform）には「Always Free」と呼ばれる、
+期間を限定しない無料枠があります。詳細は
+[Google Cloud の無料枠](https://cloud.google.com/free/docs/gcp-free-tier)
+を参照してください。
+
+ただし Google App Engine はいろいろと特殊なので、
+設計時点からプラットフォームを意識しておかないと、簡単には動かないと思います。
