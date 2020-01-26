@@ -8,7 +8,24 @@ function text_attendance(b) {
     }
 }
 
-function getOptionsGroup1() {
+function initOptionsGroup1() {
+    var group1 = $("select[name=group1]");
+    var template = $($.parseHTML("<option value=''></option>"));
+    var offset = 1932;
+    var now = new Date();
+    var currentY = now.getFullYear();
+    if (now.getMonth() < 3) {
+        // 現在が 1 月から 3 月の間は年度替わり前
+        // getMonth は 1 月を 0 とする値を返す
+        currentY--;
+    }
+    var y;
+    for (y = currentY - 13; y > offset; y--) {
+        var option = template.clone();
+        option.text((y - offset) + "回生 (" + y + " - " + (y+1) + "生)");
+        option.val((y - offset));
+        group1.append(option);
+    }
 }
 
 function setAddress(apiResult) {
@@ -22,7 +39,7 @@ function setAddress(apiResult) {
 $( function() {
     $( "#tabs" ).tabs();
     
-    //setupGroup1();
+    initOptionsGroup1();
     
     // 参加申込
     $( "#form-entry" ).submit(function(event) {
