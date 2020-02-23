@@ -49,6 +49,7 @@ class Attendance:
     name2 = None
     group1 = None
     group2 = None
+    email = None
     attendance1 = None
     attendance2 = None
     anonymous = None
@@ -110,6 +111,8 @@ def get_attendances(meeting):
             a.group1 = a_src['group1']
         if 'group2' in a_src:
             a.group2 = a_src['group2']
+        if 'email' in a_src:
+            a.email = a_src['email']
         if 'attendance1' in a_src:
             a.attendance1 = a_src['attendance1']
         if 'attendacne2' in a_src:
