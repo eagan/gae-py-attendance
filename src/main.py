@@ -115,7 +115,7 @@ def get_attendances(meeting):
             a.email = a_src['email']
         if 'attendance1' in a_src:
             a.attendance1 = a_src['attendance1']
-        if 'attendacne2' in a_src:
+        if 'attendance2' in a_src:
             a.attendance2 = a_src['attendance2']
         if 'anonymous' in a_src:
             a.anonymous = a_src['anonymous']
