@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, tzinfo, timedelta
+import io
+import csv
 from google.cloud import datastore
 from google.cloud.datastore.entity import Entity
 from flask import Flask, jsonify, request, render_template, make_response
@@ -142,9 +144,9 @@ def get_attendances(meeting):
         if 'officetel' in a_src:
             a.officetel = a_src['officetel']
         if 'created' in a_src:
-            a.created = a_src['created']
+            a.created = a_src['created'].astimezone(tz)
         if 'updated' in a_src:
-            a.updated = a_src['updated']
+            a.updated = a_src['updated'].astimezone(tz)
         attendances.append(a)
     return attendances
 
@@ -271,6 +273,32 @@ def meeting_search(meeting_id):
             aout['attendance2'] = a.attendance2
             attendances_out.append(aout)
     return jsonify(attendances_out)
+
+@app.route('/<meeting_id>/admin/export/')
+def meeting_admin_export(meeting_id):
+    # TODO: 権限制御
+    meeting = get_meeting(meeting_id)
+    if not meeting:
+        return make_response('', 404)
+    
+    datetimefmt = '%Y/%m/%d %H:%M:%S'
+    with io.StringIO() as f:
+        w = csv.writer(f)
+        w.writerow(['name1', 'name2', 'group1', 'group2', 'email', 'attendance1', 'attendance2', 'anonymous',
+                    'zip1', 'zip2', 'address', 'tel', 'fax', 'office', 'officetel',
+                    'created', 'updated'])
+        
+        attendances = get_attendances(meeting)
+        for a in attendances:
+            w.writerow([a.name1, a.name2, a.group1, a.group2, a.email, str(a.attendance1), str(a.attendance2), str(a.anonymous),
+                        a.zip1, a.zip2, a.address, a.tel, a.fax, a.office, a.officetel,
+                        a.created.strftime(datetimefmt), a.updated.strftime(datetimefmt)])
+        
+        res = make_response()
+        res.headers['Content-Type'] = 'application/octet-stream'
+        res.headers['Content-Disposition'] = u'attachment; filename=attendance.csv'
+        res.data = f.getvalue().encode('MS932')
+        return res
 
 @app.route('/<meeting_id>/login/', methods=['POST'])
 def login(meeting_id):
