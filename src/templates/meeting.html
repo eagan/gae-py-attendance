@@ -30,6 +30,7 @@
     </ul>
     <div id="tabs-entry">
       <h2>参加申込</h2>
+      {% if meeting.accept_entry %}
       <form id="form-entry" action="entry/" method="POST">
         <div class="inputSection">
           <div class="inputItem required">
@@ -125,9 +126,13 @@
           <input type="submit" id="button-entry" value="登録" />
         </div>
       </form>
+      {% else %}
+      <div>ただいま参加申込は受け付けておりません</div>
+      {% endif %}
     </div>
     <div id="tabs-search">
       <h2>参加者検索</h2>
+      {% if meeting.accept_search %}
       <form id="form-search" action="search/">
         <input type="text" name="condition" placeholder="検索条件を入力して検索してください。" />
         <input type="submit" id="button-search" value="検索" />
@@ -149,6 +154,9 @@
           </div>
         </div>
       </div>
+      {% else %}
+      <div>ただいま参加者検索は受け付けておりません</div>
+      {% endif %}
     </div>
   </div>
 

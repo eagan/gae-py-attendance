@@ -42,6 +42,8 @@ class Meeting:
     title = None
     password = None
     detail_url = None
+    accept_entry = None
+    accept_search = None
 
 class Attendance:
     id = None
@@ -94,6 +96,10 @@ def get_meeting(meeting_id):
             meeting.password = m_src['password']
         if 'detail_url' in m_src:
             meeting.detail_url = m_src['detail_url']
+        if 'accept_entry' in m_src:
+            meeting.accept_entry = m_src['accept_entry']
+        if 'accept_search' in m_src:
+            meeting.accept_search = m_src['accept_search']
     return meeting
 
 def get_attendances(meeting):
@@ -200,6 +206,8 @@ def meeting_entry(meeting_id):
     meeting = get_meeting(meeting_id)
     if not meeting:
         return render_template('meeting_not_found.html', meeting_id = meeting_id), 404
+    if not meeting.accept_entry:
+        return make_response('ただいま参加申込は受け付けておりません', 403)
     input_errors = []
     attendance = Attendance()
     form = request.form
@@ -244,6 +252,8 @@ def meeting_search(meeting_id):
     meeting = get_meeting(meeting_id)
     if not meeting:
         return make_response('', 404)
+    if not meeting.accept_search:
+        return make_response('ただいま参加者検索は受け付けておりません', 403)
     if not 'condition' in request.args.keys() or not request.args['condition']:
         return make_response('検索条件を入力してください', 403)
     conditions = request.args['condition'].split()
