@@ -268,11 +268,11 @@ def meeting_entry(meeting_id):
         input_errors.append(('group2', meeting.entryitem['group2'].namej + 'は必須です'))
     if 'email' in meeting.entryitem and meeting.entryitem['email'].required and not attendance.email:
         input_errors.append(('email', meeting.entryitem['email'].namej + 'は必須です'))
-    if 'attendance1' in meeting.entryitem and meeting.entryitem['attendance1'].required and not attendance.attendance1:
+    if 'attendance1' in meeting.entryitem and meeting.entryitem['attendance1'].required and attendance.attendance1 is None:
         input_errors.append(('attendance1', meeting.entryitem['attendance1'].namej + 'は必須です'))
-    if 'attendance2' in meeting.entryitem and meeting.entryitem['attendance2'].required and not attendance.attendance2:
+    if 'attendance2' in meeting.entryitem and meeting.entryitem['attendance2'].required and attendance.attendance2 is None:
         input_errors.append(('attendance2', meeting.entryitem['attendance2'].namej + 'は必須です'))
-    if 'anonymous' in meeting.entryitem and meeting.entryitem['anonymous'].required and not attendance.anonymous:
+    if 'anonymous' in meeting.entryitem and meeting.entryitem['anonymous'].required and attendance.anonymous is None:
         input_errors.append(('anonymous', meeting.entryitem['anonymous'].namej + 'は必須です'))
     if 'message' in meeting.entryitem and meeting.entryitem['message'].required and not attendance.message:
         input_errors.append(('message', meeting.entryitem['message'].namej + 'は必須です'))
