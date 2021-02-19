@@ -33,96 +33,126 @@
       {% if meeting.accept_entry %}
       <form id="form-entry" action="entry/" method="POST">
         <div class="inputSection">
-          <div class="inputItem required">
-            <label for="name1" class="itemName">お名前</label>
-            <input name="name1" type="text" placeholder="お名前を入力してください" />
+          {% if meeting.entryitem.name1 %}
+          <div class="inputItem {% if meeting.entryitem.name1.required %}required{% endif %}">
+            <label for="name1" class="itemName">{{ meeting.entryitem.name1.namej }}</label>
+            <input name="name1" type="text" placeholder="{{ meeting.entryitem.name1.placeholder }}" />
             <span id="name1-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="name2" class="itemName">旧姓</label>
-            <input name="name2" type="text" placeholder="旧姓を入力してください" />
+          {% endif %}
+          {% if meeting.entryitem.name2 %}
+          <div class="inputItem {% if meeting.entryitem.name2.required %}required{% endif %}">
+            <label for="name2" class="itemName">{{ meeting.entryitem.name2.namej }}</label>
+            <input name="name2" type="text" placeholder="{{ meeting.entryitem.name2.placeholder }}" />
             <span id="name2-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem required">
-            <label for="group1" class="itemName">在籍回生</label>
+          {% endif %}
+          {% if meeting.entryitem.group1 %}
+          <div class="inputItem {% if meeting.entryitem.group1.required %}required{% endif %}">
+            <label for="group1" class="itemName">{{ meeting.entryitem.group1.namej }}</label>
             <select name="group1">
             </select>
             <span id="group1-error"></span>
           </div>
-          <div class="inputItem">
-            <label for="group2" class="itemName">部活</label>
-            <input name="group2" type="text" placeholder="所属していた部活名を入力してください（複数可）"/>
+          {% endif %}
+          {% if meeting.entryitem.group2 %}
+          <div class="inputItem {% if meeting.entryitem.group2.required %}required{% endif %}">
+            <label for="group2" class="itemName">{{ meeting.entryitem.group2.namej }}</label>
+            <input name="group2" type="text" placeholder="{{ meeting.entryitem.group2.placeholder }}"/>
             <span id="group2-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="email" class="itemName">メールアドレス</label>
-            <input name="email" type="text" placeholder="メールアドレスを入力してください"/>
+          {% endif %}
+          {% if meeting.entryitem.email %}
+          <div class="inputItem {% if meeting.entryitem.email.required %}required{% endif %}">
+            <label for="email" class="itemName">{{ meeting.entryitem.email.namej }}</label>
+            <input name="email" type="text" placeholder="{{ meeting.entryitem.email.placeholder }}"/>
             <span id="email-error" class="errorMessage"></span>
           </div>
+          {% endif %}
         </div>
         <div class="inputSection">
-          <div class="inputItem required">
-            <label for="attendance1" class="itemName">総会・懇親会</label>
+          {% if meeting.entryitem.attendance1 %}
+          <div class="inputItem {% if meeting.entryitem.attendance1.required %}required{% endif %}">
+            <label for="attendance1" class="itemName">{{ meeting.entryitem.attendance1.namej }}</label>
             <input name="attendance1" type="radio" value="true" id="attendance1-true"><label for="attendance1-true">ご出席</label>
             <input name="attendance1" type="radio" value="false" id="attendance1-false"><label for="attendance1-false">ご欠席</label>
             <span id="attendance1-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem required">
-            <label for="attendance2" class="itemName">二次会</label>
+          {% endif %}
+          {% if meeting.entryitem.attendance2 %}
+          <div class="inputItem {% if meeting.entryitem.attendance2.required %}required{% endif %}">
+            <label for="attendance2" class="itemName">{{ meeting.entryitem.attendance2.namej }}</label>
             <input name="attendance2" type="radio" value="true" id="attendance2-true"><label for="attendance2-true">ご出席</label>
             <input name="attendance2" type="radio" value="false" id="attendance2-false"><label for="attendance2-false">ご欠席</label>
             <span id="attendance2-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem required">
-            <label for="anonymous" class="itemName">出欠の公開</label>
+          {% endif %}
+          {% if meeting.entryitem.anonymous %}
+          <div class="inputItem {% if meeting.entryitem.anonymous.required %}required{% endif %}">
+            <label for="anonymous" class="itemName">{{ meeting.entryitem.anonymous.namej }}</label>
             <input name="anonymous" type="radio" value="false" id="anonymous-false"><label for="anonymous-false">公開可</label>
             <input name="anonymous" type="radio" value="true" id="anonymous-true"><label for="anonymous-true">匿名希望</label>
             <span id="anonymous-error" class="errorMessage"></span>
           </div>
+          {% endif %}
         </div>
         <div class="inputSection">
-          <div class="inputItem">
-            <label for="message" class="itemName">メッセージ</label>
-            <textarea name="message"></textarea>
+          {% if meeting.entryitem.message %}
+          <div class="inputItem {% if meeting.entryitem.message.required %}required{% endif %}">
+            <label for="message" class="itemName">{{ meeting.entryitem.message.namej }}</label>
+            <textarea name="message" placeholder="{{ meeting.entryitem.message.placeholder }}"></textarea>
             <span id="message-error" class="errorMessage"></span>
             <p>※出席者検索サイトには表示されません。総会当日に会場に掲示されます。</p>
           </div>
+          {% endif %}
         </div>
         <div class="inputSection">
           <p>連絡先に変更のある方は以下にご記入ください。</p>
-          <div class="inputItem">
-            <label for="zip1" class="itemName">郵便番号</label>
+          {% if meeting.entryitem.zip %}
+          <div class="inputItem {% if meeting.entryitem.zip.required %}required{% endif %}">
+            <label for="zip1" class="itemName">{{ meeting.entryitem.zip.namej }}</label>
             <input name="zip1" type="text" size="3" maxlength="3"> -
             <input name="zip2" type="text" size="4" maxlength="4">
             <button id="zip2address">郵便番号から住所を自動入力</button>
             <span id="zip1-error" class="errorMessage"></span>
             <span id="zip2-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="address" class="itemName">住所</label>
-            <input name="address" type="text" placeholder="住所を入力してください">
+          {% endif %}
+          {% if meeting.entryitem.address %}
+          <div class="inputItem {% if meeting.entryitem.address.required %}required{% endif %}">
+            <label for="address" class="itemName">{{ meeting.entryitem.address.namej }}</label>
+            <input name="address" type="text" placeholder="{{ meeting.entryitem.address.placeholderj }}">
             <span id="address-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="tel" class="itemName">電話番号</label>
-            <input name="tel" type="text" placeholder="電話番号を入力してください">
+          {% endif %}
+          {% if meeting.entryitem.tel %}
+          <div class="inputItem {% if meeting.entryitem.tel.required %}required{% endif %}">
+            <label for="tel" class="itemName">{{ meeting.entryitem.tel.namej }}</label>
+            <input name="tel" type="text" placeholder="{{ meeting.entryitem.tel.placeholderj }}">
             <span id="tel-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="fax" class="itemName">FAX</label>
-            <input name="fax" type="text" placeholder="FAX番号を入力してください">
+          {% endif %}
+          {% if meeting.entryitem.fax %}
+          <div class="inputItem {% if meeting.entryitem.fax.required %}required{% endif %}">
+            <label for="fax" class="itemName">{{ meeting.entryitem.fax.namej }}</label>
+            <input name="fax" type="text" placeholder="{{ meeting.entryitem.fax.placeholderj }}">
             <span id="fax-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="office" class="itemName">お勤め先</label>
-            <input name="office" type="text" placeholder="お勤め先の名前を入力してください">
+          {% endif %}
+          {% if meeting.entryitem.office %}
+          <div class="inputItem {% if meeting.entryitem.office.required %}required{% endif %}">
+            <label for="office" class="itemName">{{ meeting.entryitem.office.namej }}</label>
+            <input name="office" type="text" placeholder="{{ meeting.entryitem.office.placeholderj }}">
             <span id="office-error" class="errorMessage"></span>
           </div>
-          <div class="inputItem">
-            <label for="officetel" class="itemName">お勤め先電話番号</label>
-            <input name="officetel" type="text" placeholder="お勤め先の電話番号を入力してください">
+          {% endif %}
+          {% if meeting.entryitem.officetel %}
+          <div class="inputItem {% if meeting.entryitem.officetel.required %}required{% endif %}">
+            <label for="officetel" class="itemName">{{ meeting.entryitem.officetel.namej }}</label>
+            <input name="officetel" type="text" placeholder="{{ meeting.entryitem.officetel.placeholderj }}">
             <span id="officetel-error" class="errorMessage"></span>
           </div>
+          {% endif %}
         </div>
         <div>
           <input type="submit" id="button-entry" value="登録" />

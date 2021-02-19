@@ -46,6 +46,16 @@ class Meeting:
     detail_url = None
     accept_entry = None
     accept_search = None
+    
+    def __init__(self):
+        self.entryitem = {}
+
+class EntryItem:
+    name = None
+    namej = None
+    inputtype = None
+    required = None
+    placeholder = None
 
 class Attendance:
     id = None
@@ -83,10 +93,10 @@ class Attendance:
 # TODO: memcache 対応
 
 def get_meeting(meeting_id):
-    query = datastore_client.query(kind='meeting')
-    key = datastore_client.key('meeting', meeting_id)
-    query.key_filter(key)
-    meetings = list(query.fetch())
+    meeting_key = datastore_client.key('meeting', meeting_id)
+    meeting_query = datastore_client.query(kind='meeting')
+    meeting_query.key_filter(meeting_key)
+    meetings = list(meeting_query.fetch())
     meeting = None
     if len(meetings) == 1:
         meeting = Meeting()
@@ -102,6 +112,21 @@ def get_meeting(meeting_id):
             meeting.accept_entry = m_src['accept_entry']
         if 'accept_search' in m_src:
             meeting.accept_search = m_src['accept_search']
+    item_query = datastore_client.query(kind='entryitem', ancestor=meeting_key)
+    for i_src in (item_query.fetch()):
+        i = EntryItem()
+        if 'name' in i_src:
+            i.name = i_src['name']
+        if 'namej' in i_src:
+            i.namej = i_src['namej']
+        if 'inputtype' in i_src:
+            i.inputtype = i_src['inputtype']
+        if 'required' in i_src:
+            i.required = i_src['required']
+        if 'placeholder' in i_src:
+            i.placeholder = i_src['placeholder']
+        if i.name:
+            meeting.entryitem[i.name] = i
     return meeting
 
 def get_attendances(meeting):
@@ -233,16 +258,36 @@ def meeting_entry(meeting_id):
     attendance.updated = attendance.created
     
     # 入力チェック
-    if not attendance.name1:
-        input_errors.append(('name1', 'お名前は必須です'))
-    if not attendance.group1:
-        input_errors.append(('group1', '在籍回生は必須です'))
-    if attendance.attendance1 is None:
-        input_errors.append(('attendance1', '総会・懇親会出欠は必須です'))
-    if attendance.attendance2 is None:
-        input_errors.append(('attendance2', '二次会出欠は必須です'))
-    if attendance.anonymous is None:
-        input_errors.append(('anonymous', '出欠の公開は必須です'))
+    if 'name1' in meeting.entryitem and meeting.entryitem['name1'].required and not attendance.name1:
+        input_errors.append(('name1', meeting.entryitem['name1'].namej + 'は必須です'))
+    if 'name2' in meeting.entryitem and meeting.entryitem['name2'].required and not attendance.name2:
+        input_errors.append(('name2', meeting.entryitem['name2'].namej + 'は必須です'))
+    if 'group1' in meeting.entryitem and meeting.entryitem['group1'].required and not attendance.group1:
+        input_errors.append(('group1', meeting.entryitem['group1'].namej + 'は必須です'))
+    if 'group2' in meeting.entryitem and meeting.entryitem['group2'].required and not attendance.group2:
+        input_errors.append(('group2', meeting.entryitem['group2'].namej + 'は必須です'))
+    if 'email' in meeting.entryitem and meeting.entryitem['email'].required and not attendance.email:
+        input_errors.append(('email', meeting.entryitem['email'].namej + 'は必須です'))
+    if 'attendance1' in meeting.entryitem and meeting.entryitem['attendance1'].required and not attendance.attendance1:
+        input_errors.append(('attendance1', meeting.entryitem['attendance1'].namej + 'は必須です'))
+    if 'attendance2' in meeting.entryitem and meeting.entryitem['attendance2'].required and not attendance.attendance2:
+        input_errors.append(('attendance2', meeting.entryitem['attendance2'].namej + 'は必須です'))
+    if 'anonymous' in meeting.entryitem and meeting.entryitem['anonymous'].required and not attendance.anonymous:
+        input_errors.append(('anonymous', meeting.entryitem['anonymous'].namej + 'は必須です'))
+    if 'message' in meeting.entryitem and meeting.entryitem['message'].required and not attendance.message:
+        input_errors.append(('message', meeting.entryitem['message'].namej + 'は必須です'))
+    if 'zip' in meeting.entryitem and meeting.entryitem['zip'].required and (not attendance.zip1 or not attendance.zip2):
+        input_errors.append(('zip', meeting.entryitem['zip'].namej + 'は必須です'))
+    if 'address' in meeting.entryitem and meeting.entryitem['address'].required and not attendance.address:
+        input_errors.append(('address', meeting.entryitem['address'].namej + 'は必須です'))
+    if 'tel' in meeting.entryitem and meeting.entryitem['tel'].required and not attendance.tel:
+        input_errors.append(('tel', meeting.entryitem['tel'].namej + 'は必須です'))
+    if 'fax' in meeting.entryitem and meeting.entryitem['fax'].required and not attendance.fax:
+        input_errors.append(('fax', meeting.entryitem['fax'].namej + 'は必須です'))
+    if 'office' in meeting.entryitem and meeting.entryitem['office'].required and not attendance.office:
+        input_errors.append(('office', meeting.entryitem['office'].namej + 'は必須です'))
+    if 'officetel' in meeting.entryitem and meeting.entryitem['officetel'].required and not attendance.officetel:
+        input_errors.append(('officetel', meeting.entryitem['officetel'].namej + 'は必須です'))
     if len(input_errors):
         return make_response(jsonify({'input_errors': input_errors}), 403)
     
