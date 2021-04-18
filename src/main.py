@@ -2,6 +2,7 @@
 
 from datetime import datetime, tzinfo, timedelta
 import io
+import base64
 import csv
 from google.cloud import datastore
 from google.cloud.datastore.entity import Entity
@@ -356,6 +357,16 @@ def login(meeting_id):
     resp = make_response('ログインに成功しました', 200)
     resp.set_cookie(key='password', value=password, path=('/%s/' % (meeting_id)), secure=request.is_secure)
     return resp
+
+# 初期化
+config = {}
+try:
+    config_query = datastore_client.query(kind='config')
+    for c in list(config_query.fetch()):
+        config[c.key.name] = c['value']
+    app.secret_key = base64.standard_b64decode(config['SECRET_KEY'])
+except Exception as e:
+    app.logger.error(f'{type(e)}: {e}')
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
