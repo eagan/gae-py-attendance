@@ -51,8 +51,11 @@
           <div class="inputItem {% if meeting.entryitem.group1.required %}required{% endif %}">
             <label for="group1" class="itemName">{{ meeting.entryitem.group1.namej }}</label>
             <select name="group1">
+            {% for o in meeting.entryitem.group1.options %}
+                <option value="{{ o[0] }}">{{ o[1] }}</option>
+            {% endfor %}
             </select>
-            <span id="group1-error"></span>
+            <span id="group1-error" class="errorMessage"></span>
           </div>
           {% endif %}
           {% if meeting.entryitem.group2 %}

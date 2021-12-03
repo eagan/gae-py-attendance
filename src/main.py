@@ -2,6 +2,7 @@
 
 from datetime import datetime, tzinfo, timedelta
 import io
+import re
 import base64
 import csv
 from google.cloud import datastore
@@ -94,6 +95,7 @@ class Attendance:
 # TODO: memcache 対応
 
 def get_meeting(meeting_id):
+    ptn_options = re.compile(r'(?P<val>[^=]*)=(?P<text>.*)')
     meeting_key = datastore_client.key('meeting', meeting_id)
     meeting_query = datastore_client.query(kind='meeting')
     meeting_query.key_filter(meeting_key)
@@ -126,6 +128,12 @@ def get_meeting(meeting_id):
             i.required = i_src['required']
         if 'placeholder' in i_src:
             i.placeholder = i_src['placeholder']
+        if 'options' in i_src:
+            i.options = []
+            for o in i_src['options']:
+                m = ptn_options.match(o)
+                if m:
+                    i.options.append((m.group('val'), m.group('text')))
         if i.name:
             meeting.entryitem[i.name] = i
     return meeting
@@ -320,7 +328,7 @@ def meeting_search(meeting_id):
             attendances_out.append(aout)
     return jsonify(attendances_out)
 
-@app.route('/<meeting_id>/admin/export/')
+#@app.route('/<meeting_id>/admin/export/')
 def meeting_admin_export(meeting_id):
     # TODO: 権限制御
     meeting = get_meeting(meeting_id)
